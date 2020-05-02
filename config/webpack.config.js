@@ -27,10 +27,6 @@ for (const item of routes) {
 module.exports = {
     mode: 'development',
     entry,
-    // entry: {
-    //     index: path.resolve(__dirname, '../src/js/index.js'),
-    //     detail: path.resolve(__dirname, '../src/js/detail.js'),
-    // },
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[hash:8].js',
@@ -103,30 +99,6 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         ...htmlPlugin
-        // new HtmlWebpackPlugin({
-        //     minify: {
-        //         removeComments: true,
-        //         collapseWhitespace: true,
-        //     },
-        //     filename: 'index.html',
-        //     template: path.resolve(__dirname, '../src/pages/index.html'),
-        //     chunksSortMode: 'manual',
-        //     chunks: ['index'],
-        //     excludeChunks: ['node_modules'],
-        //     hash: true,
-        // }),
-        // new HtmlWebpackPlugin({
-        //     minify: {
-        //         removeComments: true,
-        //         collapseWhitespace: true,
-        //     },
-        //     filename: 'detail.html',
-        //     template: path.resolve(__dirname, '../src/pages/detail.html'),
-        //     chunksSortMode: 'manual',
-        //     chunks: ['detail'],
-        //     excludeChunks: ['node_modules'],
-        //     hash: true,
-        // }),
     ],
     resolve: {
         extensions: ['.js', '.css', '.less', '.json'],
