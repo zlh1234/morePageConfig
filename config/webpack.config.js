@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const copyWebpackPlugin = require('copy-webpack-plugin');
 const routes = require('./routes');
 let entry = {};
 let htmlPlugin = [];
@@ -98,6 +99,10 @@ module.exports = {
             chunkFilename: 'css/[name].[hash:8].css',
         }),
         new CleanWebpackPlugin(),
+        new copyWebpackPlugin([{
+            from: path.resolve(__dirname, '../src/assets'), //打包的静态资源目录地址
+            to: path.resolve(__dirname, '../dist/assets'), //打包到dist下面的assets
+        }]),
         ...htmlPlugin
     ],
     resolve: {
