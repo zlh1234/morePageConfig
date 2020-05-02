@@ -7,7 +7,7 @@ module.exports = smart(base, {
         port: 8080,
         // open: true,
         progress: true,
-        contentBase: './dist',
+        contentBase: '../dist',
         before(app) {
 
         },

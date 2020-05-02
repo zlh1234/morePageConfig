@@ -4,14 +4,35 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const routes = require('./routes');
+let entry = {};
+let htmlPlugin = [];
+for (const item of routes) {
+    entry[item.chunks] = item.js_path;
+    htmlPlugin.push(
+        new HtmlWebpackPlugin({
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+            },
+            filename: item.filename,
+            template: item.html_path,
+            chunksSortMode: 'manual',
+            chunks: [item.chunks],
+            excludeChunks: ['node_modules'],
+            hash: true,
+        })
+    )
+}
 module.exports = {
     mode: 'development',
-    entry: {
-        index: path.resolve(__dirname, './src/js/index.js'),
-        detail: path.resolve(__dirname, './src/js/detail.js'),
-    },
+    entry,
+    // entry: {
+    //     index: path.resolve(__dirname, '../src/js/index.js'),
+    //     detail: path.resolve(__dirname, '../src/js/detail.js'),
+    // },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[hash:8].js',
     },
     module: {
@@ -19,7 +40,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: path.resolve(__dirname, 'node_modules'),
+                exclude: path.resolve(__dirname, '../node_modules'),
                 query: {
                     'presets': ['latest']
                 }
@@ -80,36 +101,37 @@ module.exports = {
             filename: 'css/[name].[hash:8].css',
             chunkFilename: 'css/[name].[hash:8].css',
         }),
-        new HtmlWebpackPlugin({
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-            },
-            filename: 'index.html',
-            template: path.resolve(__dirname, './src/pages/index.html'),
-            chunksSortMode: 'manual',
-            chunks: ['index'],
-            excludeChunks: ['node_modules'],
-            hash: true,
-        }),
-        new HtmlWebpackPlugin({
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-            },
-            filename: 'detail.html',
-            template: path.resolve(__dirname, './src/pages/detail.html'),
-            chunksSortMode: 'manual',
-            chunks: ['detail'],
-            excludeChunks: ['node_modules'],
-            hash: true,
-        }),
         new CleanWebpackPlugin(),
+        ...htmlPlugin
+        // new HtmlWebpackPlugin({
+        //     minify: {
+        //         removeComments: true,
+        //         collapseWhitespace: true,
+        //     },
+        //     filename: 'index.html',
+        //     template: path.resolve(__dirname, '../src/pages/index.html'),
+        //     chunksSortMode: 'manual',
+        //     chunks: ['index'],
+        //     excludeChunks: ['node_modules'],
+        //     hash: true,
+        // }),
+        // new HtmlWebpackPlugin({
+        //     minify: {
+        //         removeComments: true,
+        //         collapseWhitespace: true,
+        //     },
+        //     filename: 'detail.html',
+        //     template: path.resolve(__dirname, '../src/pages/detail.html'),
+        //     chunksSortMode: 'manual',
+        //     chunks: ['detail'],
+        //     excludeChunks: ['node_modules'],
+        //     hash: true,
+        // }),
     ],
     resolve: {
         extensions: ['.js', '.css', '.less', '.json'],
         alias: {
-            '@': path.join(__dirname, './src')
+            '@': path.join(__dirname, '../src')
         }
     }
 }
